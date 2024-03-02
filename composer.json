@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "collaborar/zephyr-package",
+    "name": "collaborar/zephyr-core",
     "version": "1.0.0",
     "license": "GPL-3.O-only",
     "scripts": {
@@ -38,7 +38,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ZephyrPackage\\": "src/"
+            "ZephyrCore\\": "src/"
         },
         "files": [
             "config.php"
@@ -46,8 +46,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ZephyrPackageTests\\": "tests/unit-tests",
-            "ZephyrPackageTestTools\\": "tests/tools"
+            "ZephyrCoreTests\\": "tests/unit-tests",
+            "ZephyrCoreTestTools\\": "tests/tools"
         }
     },
     "config": {
@@ -57,5 +57,14 @@
     },
     "extra": {
         "wordpress-install-dir": "vendor/wordpress"
+    },
+    "repositories": {
+        "zephyr": {
+            "type": "path",
+            "url": "../zephyr",
+            "options": {
+                "symlink": true
+            }
+        }
     }
 }

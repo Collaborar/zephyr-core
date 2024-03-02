@@ -1,2 +1,2 @@
-# Zephyr Package
-Zephyr Package boilerplate to extend Zephyr
+# Zephyr Core
+Core tools for Zephyr starter theme and plugin.

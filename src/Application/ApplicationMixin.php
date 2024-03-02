@@ -1,6 +1,6 @@
 <?php
 
-namespace ZephyrPackage\Application;
+namespace ZephyrCore\Application;
 
 /**
  * Can be applied to your App class via a "@mixin" annotation for better IDE support.
