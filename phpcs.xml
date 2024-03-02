@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="My App">
+    <description>My App Coding Standard</description>
+    <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
+    <config name="testVersion" value="8.1-"/>
+
+    <arg name="warning-severity" value="0" />
+
+    <!-- Files -->
+    <file>./src</file>
+
+    <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony"/>
+</ruleset>

@@ -1,0 +1,61 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "collaborar/zephyr-package",
+    "version": "1.0.0",
+    "license": "GPL-3.O-only",
+    "scripts": {
+        "prod": "composer install --no-dev --classmap-authoritative --optimize-autoloader",
+        "check": "psalm",
+        "check:fix": "psalm --alter --issues=InvalidNullableReturnType --dry-run",
+        "lint": "phpcs",
+        "lint:fix": "phpcbf",
+        "test": "phpunit",
+        "test:watch": [
+            "Composer\\Config::disableProcessTimeout",
+            "phpunit-watcher watch < /dev/tty"
+        ],
+        "analyze": [
+            "@lint",
+            "@check",
+            "@test"
+        ]
+    },
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "brain/monkey": "^2.6",
+        "mockery/mockery": "^1.6",
+        "squizlabs/php_codesniffer": "^3.9",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
+        "spatie/phpunit-watcher": "^1.23",
+        "vimeo/psalm": "^5.22",
+        "phpunit/phpunit": "^10.5",
+        "collaborar/zephyr": "@dev",
+        "roots/wordpress": "6.4.*"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "ZephyrPackage\\": "src/"
+        },
+        "files": [
+            "config.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZephyrPackageTests\\": "tests/unit-tests",
+            "ZephyrPackageTestTools\\": "tests/tools"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "roots/wordpress-core-installer": true
+        }
+    },
+    "extra": {
+        "wordpress-install-dir": "vendor/wordpress"
+    }
+}

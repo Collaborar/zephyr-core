@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	bootstrap="./tests/bootstrap.php"
+	colors="true"
+	stopOnError="false"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutTestsThatDoNotTestAnything="true"
+	backupGlobals="false"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+	cacheDirectory=".phpunit.cache"
+>
+	<testsuites>
+		<testsuite name="Zephyr Test Suite">
+			<directory suffix=".php">./tests/unit-tests/</directory>
+		</testsuite>
+	</testsuites>
+
+	<source>
+		<include>
+			<directory suffix=".php">./src</directory>
+		</include>
+		<exclude>
+			<directory suffix=".php">./src/Exceptions/Whoops</directory>
+			<directory suffix=".php">./src/Support</directory>
+			<file>./src/view.php</file>
+		</exclude>
+	</source>
+</phpunit>
