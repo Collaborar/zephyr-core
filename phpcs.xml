@@ -9,6 +9,10 @@
 
     <!-- Files -->
     <file>./src</file>
+    <file>./config.php</file>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>tests/*</exclude-pattern>
 
     <!-- Symfony rules -->
     <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony">

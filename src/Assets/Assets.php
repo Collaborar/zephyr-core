@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace ZephyrCore\Assets;
 
-use Zephyr\Helpers\{ MixedType, Url };
+use WP_Filesystem_Base;
+use Zephyr\Helpers\MixedType;
+use Zephyr\Helpers\Url;
+use ZephyrCore\Config\Config;
 
 /**
  * Assets
@@ -14,82 +17,21 @@ class Assets
     /**
      * Constructor.
      *
-     * @param string              $path App root path.
-     * @param string              $url  App root URL.
-     * @param Config              $config Plugin/Theme config (config.json | theme.json)
-     * @param Manifest            $manifest Manifest
-     * @param \WP_Filesystem_Base $filesystem Filesystem
+     * @param string             $path       App root path.
+     * @param string             $url        App root URL.
+     * @param Config             $config     Plugin/Theme config (config.json | theme.json)
+     * @param Manifest           $manifest   Manifest
+     * @param WP_Filesystem_Base $filesystem Filesystem
      */
     public function __construct(
         protected string $path,
         protected string $url,
         protected Config $config,
         protected Manifest $manifest,
-        protected \WP_Filesystem_Base $filesystem
+        protected WP_Filesystem_Base $filesystem
     ) {
         $this->path = MixedType::removeTrailingSlash($path);
         $this->url = Url::removeTrailingSlash($url);
-    }
-
-    /**
-     * Remove the protocol from an http/https url.
-     *
-     * @param  string $url
-     *
-     * @return string
-     */
-    protected function removeProtocol(string $url): string
-    {
-        return preg_replace('~^https?:~i', '', $url);
-    }
-
-    /**
-     * Get if a url is external or not.
-     *
-     * @param  string  $url
-     * @param  string  $homeUrl
-     *
-     * @return bool
-     */
-    protected function isExternalUrl(string $url, string $homeUrl): bool
-    {
-        $delimiter = '~';
-        $patternHomeUrl = preg_quote($homeUrl, $delimiter);
-        $pattern = $delimiter.'^'.$patternHomeUrl.$delimiter.'i';
-
-        return !preg_match($pattern, $url);
-    }
-
-    /**
-     * Generate a version for a given asset src.
-     *
-     * @param  string          $src
-     *
-     * @return int|bool
-     */
-    protected function generateFileVersion(string $src): int|bool
-    {
-        // Normalize both URLs in order to avoid problems with http, https
-        // and protocol-less cases.
-        $src = $this->removeProtocol($src);
-        $homeUrl = $this->removeProtocol(WP_CONTENT_URL);
-        $version = false;
-
-        if (!$this->isExternalUrl($src, $homeUrl)) {
-            // Generate the absolute path to the file.
-            $filePath = MixedType::normalizePath(str_replace(
-                [$homeUrl, '/'],
-                [WP_CONTENT_DIR, DIRECTORY_SEPARATOR],
-                $src
-            ));
-
-            if ($this->filesystem->exists($filePath)) {
-                // Use the last modified time of the file as a version.
-                $version = $this->filesystem->mtime($filePath);
-            }
-        }
-
-        return $version;
     }
 
     /**
@@ -118,6 +60,7 @@ class Assets
             return '';
         }
 
+        /** @psalm-suppress UndefinedFunction */
         $url = \wp_parse_url($path);
 
         if (isset($url['scheme'])) {
@@ -133,8 +76,8 @@ class Assets
      * Get the public URL to a generated JS or CSS bundle.
      * Handles SCRIPT_DEBUG and hot reloading.
      *
-     * @param string  $name Source basename (no extension).
-     * @param string  $extension Source extension - '.js' or '.css'.
+     * @param string $name      Source basename (no extension).
+     * @param string $extension Source extension - '.js' or '.css'.
      *
      * @return string
      */
@@ -154,7 +97,8 @@ class Assets
         $suffix = $isDevelopment || $isDebug ? '' : '.min';
 
         if ($isHot) {
-            $hotUrl = wp_parse_url($this->config->get('development.hotUrl', 'http://localhost/'));
+            /** @psalm-suppress UndefinedFunction */
+            $hotUrl = \wp_parse_url($this->config->get('development.hotUrl', 'http://localhost/'));
             $hotPort = $this->config->get('development.port', 3000);
 
             return "${hotUrl['scheme']}://{$hotUrl['host']}:{$hotPort}/{$urlPath}{$suffix}{$extension}";
@@ -173,8 +117,9 @@ class Assets
      *
      * @return void
      */
-    public function enqueueStyle(string $handle, string $src, array $dependencies = [], string $media = 'all' ): void
+    public function enqueueStyle(string $handle, string $src, array $dependencies = [], string $media = 'all'): void
     {
+        /** @psalm-suppress UndefinedFunction */
         \wp_enqueue_style($handle, $src, $dependencies, $this->generateFileVersion($src), $media);
     }
 
@@ -184,13 +129,14 @@ class Assets
      * @param  string        $handle
      * @param  string        $src
      * @param  array<string> $dependencies
-     * @param  boolean       $in_footer
+     * @param  boolean       $inFooter
      *
      * @return void
      */
-    public function enqueueScript(string $handle, string $src, array $dependencies = [], bool $in_footer = false ): void
+    public function enqueueScript(string $handle, string $src, array $dependencies = [], bool $inFooter = false): void
     {
-        \wp_enqueue_script($handle, $src, $dependencies, $this->generateFileVersion($src), $in_footer);
+        /** @psalm-suppress UndefinedFunction */
+        \wp_enqueue_script($handle, $src, $dependencies, $this->generateFileVersion($src), $inFooter);
     }
 
     /**
@@ -205,8 +151,71 @@ class Assets
             return;
         }
 
-        $faviconUrl = apply_filters('zephyr_core_favicon_url', $this->getAssetUrl('images/favicon.ico'));
+        $faviconUrl = \apply_filters('zephyr_core_favicon_url', $this->getAssetUrl('images/favicon.ico'));
 
         echo '<link rel="shortcut icon" href="'.$faviconUrl.'" />'."\n";
+    }
+
+    /**
+     * Remove the protocol from an http/https url.
+     *
+     * @param  string $url
+     *
+     * @return string
+     */
+    protected function removeProtocol(string $url): string
+    {
+        return preg_replace('~^https?:~i', '', $url);
+    }
+
+    /**
+     * Get if a url is external or not.
+     *
+     * @param  string $url
+     * @param  string $homeUrl
+     *
+     * @return bool
+     */
+    protected function isExternalUrl(string $url, string $homeUrl): bool
+    {
+        $delimiter = '~';
+        $patternHomeUrl = preg_quote($homeUrl, $delimiter);
+        $pattern = $delimiter.'^'.$patternHomeUrl.$delimiter.'i';
+
+        return !preg_match($pattern, $url);
+    }
+
+    /**
+     * Generate a version for a given asset src.
+     *
+     * @param  string $src
+     *
+     * @return int|bool
+     */
+    protected function generateFileVersion(string $src): int|bool
+    {
+        /** @psalm-suppress UndefinedConstant */
+        $wpContentDir = WP_CONTENT_DIR;
+        // Normalize both URLs in order to avoid problems with http, https
+        // and protocol-less cases.
+        $src = $this->removeProtocol($src);
+        $homeUrl = $this->removeProtocol($wpContentDir);
+        $version = false;
+
+        if (!$this->isExternalUrl($src, $homeUrl)) {
+            // Generate the absolute path to the file.
+            $filePath = MixedType::normalizePath(str_replace(
+                [$homeUrl, '/'],
+                [$wpContentDir, DIRECTORY_SEPARATOR],
+                $src
+            ));
+
+            if ($this->filesystem->exists($filePath)) {
+                // Use the last modified time of the file as a version.
+                $version = $this->filesystem->mtime($filePath);
+            }
+        }
+
+        return $version;
     }
 }

@@ -21,10 +21,8 @@ class Manifest
      * Constructor
      *
      * @param string $path App root path.
-     * @param string $dist Dist folder name.
-     * @param string $file Manifest JSON file name.
      */
-    public function __construct(protected string $path, protected string $dist = 'dist', protected string $file = 'manifest.json')
+    public function __construct(protected string $path)
     {
     }
 
@@ -33,7 +31,7 @@ class Manifest
      */
     protected function getJsonPath(): string
     {
-        return MixedType::normalizePath($this->path.DIRECTORY_SEPARATOR.$this->dist.DIRECTORY_SEPARATOR.$this->file);
+        return MixedType::normalizePath($this->path.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'manifest.json');
     }
 
     /**

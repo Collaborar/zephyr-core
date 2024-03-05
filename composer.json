@@ -21,7 +21,8 @@
         ]
     },
     "require": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "collaborar/zephyr": "@dev"
     },
     "require-dev": {
         "brain/monkey": "^2.6",
@@ -32,7 +33,6 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^5.22",
         "phpunit/phpunit": "^10.5",
-        "collaborar/zephyr": "@dev",
         "roots/wordpress": "6.4.*"
 
     },

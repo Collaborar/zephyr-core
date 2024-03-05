@@ -11,7 +11,7 @@
         <directory name="src"/>
 
         <ignoreFiles>
-            <file name="src/Application/ApplicationMixin.php" />
+            <file name="src/Application/ApplicationMixin.php"/>
         </ignoreFiles>
     </projectFiles>
 </psalm>

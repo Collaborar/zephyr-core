@@ -1,6 +1,6 @@
 <?php
 
-namespace ZephyrCoreTools;
+namespace ZephyrCoreTestTools;
 
 use Brain\Monkey;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;

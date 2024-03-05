@@ -9,6 +9,9 @@ use Zephyr\Application\Application;
 use Zephyr\ServiceProviders\ExtendsConfigTrait;
 use Zephyr\ServiceProviders\ServiceProviderInterface;
 
+/**
+ * Provide app dependencies.
+ */
 class CoreServiceProvider implements ServiceProviderInterface
 {
     use ExtendsConfigTrait;
