@@ -5,9 +5,18 @@
     <config name="testVersion" value="8.1-"/>
 
     <arg name="warning-severity" value="0" />
+    <arg name="cache" value=".phpcs.cache" />
 
     <!-- Files -->
     <file>./src</file>
+    <file>./config.php</file>
 
-    <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony"/>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>tests/*</exclude-pattern>
+
+    <!-- Symfony rules -->
+    <rule ref="vendor/escapestudios/symfony2-coding-standard/Symfony">
+        <exclude name="Symfony.Functions.Arguments.Invalid" />
+        <exclude name="Symfony.Commenting.License.Warning" />
+    </rule>
 </ruleset>

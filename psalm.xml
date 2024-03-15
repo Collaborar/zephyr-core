@@ -5,8 +5,24 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    cacheDirectory=".psalm.cache"
 >
     <projectFiles>
         <directory name="src"/>
+
+        <ignoreFiles>
+            <directory name="vendor" />
+            <file name="src/Application/ApplicationMixin.php"/>
+        </ignoreFiles>
     </projectFiles>
+
+    <!-- Handle Issues -->
+    <issueHandlers>
+        <MissingFile name="/wp-admin/includes/file.php" errorLevel="suppress" />
+    </issueHandlers>
+
+    <!-- Plugins -->
+    <plugins>
+        <pluginClass class="PsalmWordPress\Plugin" />
+    </plugins>
 </psalm>
