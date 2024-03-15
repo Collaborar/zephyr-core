@@ -22,7 +22,7 @@
     },
     "require": {
         "php": ">=8.1",
-        "collaborar/zephyr": "@dev"
+        "collaborar/zephyr": "dev-main"
     },
     "require-dev": {
         "brain/monkey": "^2.6",
@@ -58,14 +58,5 @@
     },
     "extra": {
         "wordpress-install-dir": "vendor/wordpress"
-    },
-    "repositories": {
-        "zephyr": {
-            "type": "path",
-            "url": "../zephyr",
-            "options": {
-                "symlink": true
-            }
-        }
     }
 }
