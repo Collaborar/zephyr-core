@@ -11,7 +11,18 @@
         <directory name="src"/>
 
         <ignoreFiles>
+            <directory name="vendor" />
             <file name="src/Application/ApplicationMixin.php"/>
         </ignoreFiles>
     </projectFiles>
+
+    <!-- Handle Issues -->
+    <issueHandlers>
+        <MissingFile name="/wp-admin/includes/file.php" errorLevel="suppress" />
+    </issueHandlers>
+
+    <!-- Plugins -->
+    <plugins>
+        <pluginClass class="PsalmWordPress\Plugin" />
+    </plugins>
 </psalm>

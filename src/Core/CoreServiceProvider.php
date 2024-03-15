@@ -22,13 +22,18 @@ class CoreServiceProvider implements ServiceProviderInterface
     public function register(Container $container): void
     {
         $this->extendConfig($container, 'core', [
-            'path' => '',
-            'url'  => '',
+            'path'      => '',
+            'url'       => '',
+            'i18n_path' => 'languages',
         ]);
 
         $container->set(
             Core::class,
-            fn (Container $c) => new Core($c->get(Application::class))
+            fn (Container $c) => new Core(
+                $c->get(ZEPHYR_CONFIG_KEY)['core']['path'],
+                $c->get(ZEPHYR_CONFIG_KEY)['core']['i18n_path'],
+                $c->get(Application::class)
+            )
         );
 
         $app = $container->get(Application::class);

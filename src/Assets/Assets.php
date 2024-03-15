@@ -35,6 +35,16 @@ class Assets
     }
 
     /**
+     * Get the public PATH to the app root.
+     *
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    /**
      * Get the public URL to the app root.
      *
      * @return string
@@ -73,6 +83,18 @@ class Assets
     }
 
     /**
+     * Get the public path to an asset.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function getAsset(string $name): string
+    {
+        return $this->getPath().'/dist/'.$name;
+    }
+
+    /**
      * Get the public URL to a generated JS or CSS bundle.
      * Handles SCRIPT_DEBUG and hot reloading.
      *
@@ -93,7 +115,7 @@ class Assets
             $isHot = $json->hot;
         }
 
-        $urlPath = '.css' === $extension ? "styles/{$name}" : $name;
+        $urlPath = $name;
         $suffix = $isDevelopment || $isDebug ? '' : '.min';
 
         if ($isHot) {
@@ -101,7 +123,7 @@ class Assets
             $hotUrl = \wp_parse_url($this->config->get('development.hotUrl', 'http://localhost/'));
             $hotPort = $this->config->get('development.port', 3000);
 
-            return "${hotUrl['scheme']}://{$hotUrl['host']}:{$hotPort}/{$urlPath}{$suffix}{$extension}";
+            return "{$hotUrl['scheme']}://{$hotUrl['host']}:{$hotPort}/{$urlPath}{$suffix}{$extension}";
         }
 
         return "{$this->getUrl()}/dist/{$urlPath}{$suffix}{$extension}";
