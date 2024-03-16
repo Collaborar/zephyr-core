@@ -19,6 +19,7 @@ class Assets
      *
      * @param string             $path       App root path.
      * @param string             $url        App root URL.
+     * @param string             $i18nPath   App i18n path.
      * @param Config             $config     Plugin/Theme config (config.json | theme.json)
      * @param Manifest           $manifest   Manifest
      * @param WP_Filesystem_Base $filesystem Filesystem
@@ -26,12 +27,24 @@ class Assets
     public function __construct(
         protected string $path,
         protected string $url,
+        protected string $i18nPath,
         protected Config $config,
         protected Manifest $manifest,
         protected WP_Filesystem_Base $filesystem
     ) {
+        $this->i18nPath = MixedType::removeTrailingSlash($i18nPath);
         $this->path = MixedType::removeTrailingSlash($path);
         $this->url = Url::removeTrailingSlash($url);
+    }
+
+    /**
+     * Retrieves the i18n path.
+     *
+     * @return string
+     */
+    public function i18nPath(): string
+    {
+        return implode(DIRECTORY_SEPARATOR, [$this->getPath(), $this->i18nPath]);
     }
 
     /**

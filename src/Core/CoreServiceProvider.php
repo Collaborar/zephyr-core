@@ -30,8 +30,6 @@ class CoreServiceProvider implements ServiceProviderInterface
         $container->set(
             Core::class,
             fn (Container $c) => new Core(
-                $c->get(ZEPHYR_CONFIG_KEY)['core']['path'],
-                $c->get(ZEPHYR_CONFIG_KEY)['core']['i18n_path'],
                 $c->get(Application::class)
             )
         );

@@ -31,6 +31,7 @@ class AssetsServiceProvider implements ServiceProviderInterface
             fn (Container $c) => new Assets(
                 $c->get(ZEPHYR_CONFIG_KEY)['core']['path'],
                 $c->get(ZEPHYR_CONFIG_KEY)['core']['url'],
+                $c->get(ZEPHYR_CONFIG_KEY)['core']['i18n_path'],
                 $c->get(Config::class),
                 $c->get(Manifest::class),
                 $c->get(Filesystem::class)
